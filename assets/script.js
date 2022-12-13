@@ -18,6 +18,9 @@ $(".btn-primary").click(function (event) {
                     console.log(data);
                     for (let i = 0; i < data.items.length; i++) {
                       var title = (data.items[i].volumeInfo.title);
+                      var rating = (data.items[i].volumeInfo.averageRating);
+                      var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
+                      
 
                       var card = $('<div>').addClass('card');
                       var cardImg = $('<img>').addClass('card-img-top');
@@ -36,6 +39,8 @@ $(".btn-primary").click(function (event) {
                         .append(cardBody);
 
                       cardTitle.text(title);
+                      cardParagraph.text(rating + "/5");
+                      cardImg.attr('src', img);
 
                       $("#card-container").append(card);
                         // generateCard(data.items[i].volumeInfo);
