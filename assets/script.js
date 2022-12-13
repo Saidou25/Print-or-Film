@@ -17,8 +17,28 @@ $(".btn-primary").click(function (event) {
                 response.json().then(function (data) {
                     console.log(data);
                     for (let i = 0; i < data.items.length; i++) {
-                      console.log(data.items[i].volumeInfo.title);
-                        generateCard(data.items[i].volumeInfo);
+                      var title = (data.items[i].volumeInfo.title);
+
+                      var card = $('<div>').addClass('card');
+                      var cardImg = $('<img>').addClass('card-img-top');
+                      var cardBody = $('<div>').addClass('card-body');
+                      var cardTitle = $('<h5>').addClass('card-title');
+                      var cardParagraph = $('<p>').addClass('card-text');
+                      var cardLink = $('<a>').addClass('btn btn-primary');
+
+                      cardBody
+                        .append(cardTitle)
+                        .append(cardParagraph)
+                        .append(cardLink);
+                      
+                      card
+                        .append(cardImg)
+                        .append(cardBody);
+
+                      cardTitle.text(title);
+
+                      $("#card-container").append(card);
+                        // generateCard(data.items[i].volumeInfo);
                     }
                 });
             } else {
