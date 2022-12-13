@@ -33,7 +33,7 @@ $(".btn-primary").click(function (event) {
                         var cardBody = $('<div>').addClass('card-body');
                         var cardTitle = $('<h5>').addClass('card-title');
                         var cardParagraph = $('<p>').addClass('card-text');
-                        var cardLink = $('<button>').addClass('btn btn-secondary');
+                        var cardLink = $('<button>').addClass('btn btn-info');
 
                         cardTitle.text(title);
                         cardParagraph.text(rating + "/5");
@@ -54,6 +54,13 @@ $(".btn-primary").click(function (event) {
 
                         $("#card-container").append(col);
                         // generateCard(data.items[i].volumeInfo);
+                        
+                        // Local Storage
+                    var saveBookBtn = $('.btn-info');
+
+                    $(saveBookBtn).click(function () {
+                     console.log("book click");
+                    })
                     }
                 });
             } else {
@@ -101,6 +108,13 @@ $(".btn-primary").click(function (event) {
 
                     $("#movie-container").append(movieCard);
                     // generateCard(data.items[i].volumeInfo);
+
+                    // Local Storage
+                    var saveMovieBtn = $('.btn-secondary');
+
+                    $(saveMovieBtn).click(function () {
+                     console.log("click");
+                    })
                 }
                 );
             } else {
@@ -113,13 +127,4 @@ $(".btn-primary").click(function (event) {
             alert('No results found!');
         });
 
-})
-
-// Local Storage
-var saveBtn = $('.btn-secondary');
-
-$(saveBtn).click(function () {
-    var text = $(this).siblings(cardImg).val();
-    console.log("click");
-    localStorage.setItem(time, text);
 })
