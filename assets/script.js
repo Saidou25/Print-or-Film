@@ -16,8 +16,9 @@ $(".btn-primary").click(function (event) {
                 console.log(response);
                 response.json().then(function (data) {
                     console.log(data);
-                    for (let i = 0; i < data.results.length; i++) {
-                        generateCard(data.results[i]);
+                    for (let i = 0; i < data.items.length; i++) {
+                      console.log(data.items[i].volumeInfo.title);
+                        generateCard(data.items[i].volumeInfo);
                     }
                 });
             } else {
@@ -36,12 +37,12 @@ function generateCard(cardData) {
     var cardTitle = $("<div>").addClass("card-title").text(cardData.title);
     // date - card subttitle
     // info - card-text
-    var cardText = $("<div").addClass("card-text").text(cardData.title);
+    var cardText = $("<div>").addClass("card-text").text(cardData.title);
     // button
     cardBody.append(cardTitle);
     cardText.append(cardBody);
     books.append(cardBody);
-    cardContainer.append(books);
+    // cardContainer.append(books);
 }
 
 
