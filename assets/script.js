@@ -4,12 +4,14 @@ var omdb = "http://www.omdbapi.com/?i=tt3896198&apikey=56ad700b";
 
 var books = $("#books");
 
+// Search Bar
 $(".btn-primary").click(function (event) {
     event.preventDefault();
     var input = $("#textInput").val();
     var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + input;
     var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + input;
 
+    // Book Results
     fetch(bookUrl)
         .then(function (response) {
             if (response.ok) {
@@ -31,7 +33,7 @@ $(".btn-primary").click(function (event) {
                         var cardBody = $('<div>').addClass('card-body');
                         var cardTitle = $('<h5>').addClass('card-title');
                         var cardParagraph = $('<p>').addClass('card-text');
-                        var cardLink = $('<a>').addClass('btn btn-primary');
+                        var cardLink = $('<button>').addClass('btn btn-secondary');
 
                         cardTitle.text(title);
                         cardParagraph.text(rating + "/5");
@@ -56,12 +58,15 @@ $(".btn-primary").click(function (event) {
                 });
             } else {
                 alert('Error: ' + response.statusText);
+                // No alerts - redirect to error message
             }
         })
         .catch(function (error) {
+            // No alerts - redirect to error message
             alert('No results found!');
         });
 
+    // Movie Results
     fetch(movieURL)
         .then(function (response) {
             if (response.ok) {
@@ -79,7 +84,7 @@ $(".btn-primary").click(function (event) {
                     var movieCardBody = $('<div>').addClass('card-body');
                     var movieCardTitle = $('<h5>').addClass('card-title');
                     var movieCardParagraph = $('<p>').addClass('card-text');
-                    var movieCardLink = $('<a>').addClass('btn btn-primary');
+                    var movieCardLink = $('<button>').addClass('btn btn-secondary');
 
                     movieCardBody
                         .append(movieCardTitle)
@@ -99,49 +104,22 @@ $(".btn-primary").click(function (event) {
                 }
                 );
             } else {
+                // no alert messages
                 alert('Error: ' + response.statusText);
             }
         })
         .catch(function (error) {
+            // no alert messages
             alert('No results found!');
         });
 
 })
 
-function generateCard(cardData) {
-    var books = $("<div>").addClass("card");
-    var cardBody = $("<div>").addClass("card-body");
-    var cardTitle = $("<div>").addClass("card-title").text(cardData.title);
-    // date - card subttitle
-    // info - card-text
-    var cardText = $("<div>").addClass("card-text").text(cardData.title);
-    // button
-    cardBody.append(cardTitle);
-    cardText.append(cardBody);
-    books.append(cardBody);
-    // cardContainer.append(books);
-}
+// Local Storage
+var saveBtn = $('.btn-secondary');
 
-
-// fetch(omdb)
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//     console.log(data);
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
-
-// fetch(googleBooks)
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//     console.log(data);
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
-
+$(saveBtn).click(function () {
+    var text = $(this).siblings(cardImg).val();
+    console.log("click");
+    localStorage.setItem(time, text);
+})
