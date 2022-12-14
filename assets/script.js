@@ -133,8 +133,8 @@ $(document).on('click', '.btn-primary', function (event) {
 
 // Local Storage
 $(document).on('click', '.btn-secondary', function () {
-  console.log("click");
-  console.log($(this));
+  var movieSave = $(this).siblings('.card-title');  
+  console.log(movieSave);
 });
 $(document).on('click', '.btn-info', function () {
   console.log("click");
