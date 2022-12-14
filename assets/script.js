@@ -49,26 +49,34 @@ var displayMovie = function (data) {
   var movieRating = (data.imdbRating);
   var moviePoster = (data.Poster);
 
-  var movieCard = $('<div>').addClass('card');
+  var movieCard = $('<div>').addClass('card mb-3');
+  var movieCardRow = $('<div>').addClass('row g-0');
+  var movieCardRowDiv = $('<div>').addClass('col-md-4');
   var movieCardImg = $('<img>').addClass('card-img-top');
+  var movieCardBodyDiv = $('<div>').addClass('col-md-8');
   var movieCardBody = $('<div>').addClass('card-body');
   var movieCardTitle = $('<h5>').addClass('card-title');
   var movieCardParagraph = $('<p>').addClass('card-text');
   var movieCardLink = $('<button>').addClass('btn btn-secondary');
+  
+  movieCardLink.text('Add to Watchlist');
+  movieCardTitle.text(movieTitle);
+  movieCardParagraph.text(movieRating + "/10");
+  movieCardImg.attr('src', moviePoster);
 
   movieCardBody
     .append(movieCardTitle)
     .append(movieCardParagraph)
     .append(movieCardLink);
 
-  movieCard
-    .append(movieCardImg)
-    .append(movieCardBody);
+  movieCardBodyDiv.append(movieCardBody)
+  movieCardRowDiv.append(movieCardImg)
+  movieCardRow
+    .append(movieCardRowDiv)
+    .append(movieCardBodyDiv);
 
-  movieCardLink.text('Add to Watchlist');
-  movieCardTitle.text(movieTitle);
-  movieCardParagraph.text(movieRating + "/10");
-  movieCardImg.attr('src', moviePoster);
+  movieCard.append(movieCardRow);   
+
 
   $("#movie-container").append(movieCard);
   
@@ -114,7 +122,7 @@ var fetchResults = function (q) {
 
 
 // Search Bar
-$(".btn-primary").click(function (event) {
+$(document).on('click', '.btn-primary', function (event) {
   event.preventDefault();
   var q = $("#textInput").val();
 
