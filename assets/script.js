@@ -127,4 +127,37 @@ $(".btn-primary").click(function (event) {
             alert('No results found!');
         });
 
+// eb-005
 })
+
+// Local Storage
+var saveBtn = $('.btn-secondary');
+
+$(saveBtn).click(function () {
+    var text = $(this).siblings(cardImg).val();
+    console.log("click");
+    localStorage.setItem(time, text);
+})
+
+
+// Home search redirect
+
+// var searchButton = $('btn-primary');
+
+// var goSearch = function (event) {
+//     event.preventDefault();
+//     var q = qInput.value.trim();
+//     var format = formatInput.value;
+//     if (q) {
+//         if (location.href.includes('search-results.html')) {
+//             fetchResults(q, format);
+//         } else {
+//             location.assign('./search-results.html');
+//         }
+//     }
+// };
+
+// searchButton = addEventListener('click', goSearch);
+=======
+})
+// main
