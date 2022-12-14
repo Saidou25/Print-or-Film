@@ -23,6 +23,7 @@ var displayBooks = function (data) {
     cardTitle.text(title);
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
+    cardLink.text('Add to Reading List');
 
     cardBody
       .append(cardTitle)
@@ -38,14 +39,7 @@ var displayBooks = function (data) {
 
 
     $("#card-container").append(col);
-    // generateCard(data.items[i].volumeInfo);
-
-    // Local Storage
-    var saveBookBtn = $('.btn-info');
-
-    $(saveBookBtn).click(function () {
-      console.log("book click");
-    })
+    // generateCard(data.items[i].volumeInfo);  
   }
 }
 
@@ -71,17 +65,13 @@ var displayMovie = function (data) {
     .append(movieCardImg)
     .append(movieCardBody);
 
+  movieCardLink.text('Add to Watchlist');
   movieCardTitle.text(movieTitle);
   movieCardParagraph.text(movieRating + "/10");
   movieCardImg.attr('src', moviePoster);
 
   $("#movie-container").append(movieCard);
-  // Local Storage
-  var saveMovieBtn = $('.btn-secondary');
-
-  $(saveMovieBtn).click(function () {
-    console.log("click");
-  });
+  
 }
 
 var fetchBooks = function (q) {
@@ -131,16 +121,25 @@ $(".btn-primary").click(function (event) {
   if (location.href.includes("index.html") || location.href.includes("watchlist.html") || location.href.includes("search-results.html")) {
     location.assign("./search-results.html?q=" + q)
   };
-
-  // Local Storage
-  var saveBtn = $('.btn-secondary');
-
-  $(saveBtn).click(function () {
-    var text = $(this).siblings(cardImg).val();
-    console.log("click");
-    localStorage.setItem(time, text);
-  });
 });
+
+// Local Storage
+$(document).on('click', '.btn-secondary', function () {
+  console.log("click");
+  console.log($(this));
+});
+$(document).on('click', '.btn-info', function () {
+  console.log("click");
+  console.log($(this));
+});
+
+// var saveBtn = $('.btn-secondary');
+
+// $(saveBtn).click(function () {
+//   var text = $(this).siblings(cardImg).val();
+//   console.log("click");
+//   localStorage.setItem(time, text);
+// });
 
 if (location.href.includes('search-results.html') && location.search) {
   var params = new URLSearchParams(location.search);
