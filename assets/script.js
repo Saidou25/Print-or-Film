@@ -128,7 +128,7 @@ $(".btn-primary").click(function (event) {
   event.preventDefault();
   var q = $("#textInput").val();
 
-  if (location.href.includes("index.html") || location.href.includes("watchlist.html")) {
+  if (location.href.includes("index.html") || location.href.includes("watchlist.html") || location.href.includes("search-results.html")) {
     location.assign("./search-results.html?q=" + q)
   };
 
