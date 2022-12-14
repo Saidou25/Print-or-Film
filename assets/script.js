@@ -51,7 +51,7 @@ var displayMovie = function (data) {
 
   var movieCard = $('<div>').addClass('card mb-3');
   var movieCardRow = $('<div>').addClass('row g-0');
-  var movieCardRowDiv = $('<div>').addClass('col-md-4');
+  var movieCardRowDiv = $('<div>').addClass('col-sm-4 col-xs-12');
   var movieCardImg = $('<img>').addClass('card-img-top');
   var movieCardBodyDiv = $('<div>').addClass('col-md-8');
   var movieCardBody = $('<div>').addClass('card-body');
