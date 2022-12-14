@@ -11,6 +11,10 @@ $(".btn-primary").click(function (event) {
     var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + input;
     var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + input;
 
+    if (location.href.includes("index.html") || location.href.includes("watchlist.html")) {
+        location.assign("./search-results.html")
+    };
+
     // Book Results
     fetch(bookUrl)
         .then(function (response) {
@@ -55,13 +59,13 @@ $(".btn-primary").click(function (event) {
 
                         $("#card-container").append(col);
                         // generateCard(data.items[i].volumeInfo);
-                        
-                        // Local Storage
-                    var saveBookBtn = $('.btn-info');
 
-                    $(saveBookBtn).click(function () {
-                     console.log("book click");
-                    })
+                        // Local Storage
+                        var saveBookBtn = $('.btn-info');
+
+                        $(saveBookBtn).click(function () {
+                            console.log("book click");
+                        })
                     }
                 });
             } else {
@@ -113,7 +117,7 @@ $(".btn-primary").click(function (event) {
                     var saveMovieBtn = $('.btn-secondary');
 
                     $(saveMovieBtn).click(function () {
-                     console.log("click");
+                        console.log("click");
                     })
                 }
                 );
@@ -126,10 +130,9 @@ $(".btn-primary").click(function (event) {
             // no alert messages
             alert('No results found!');
         });
-
-// eb-005
-})
-
+ 
+    // eb-005
+});
 // Local Storage
 var saveBtn = $('.btn-secondary');
 
