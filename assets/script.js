@@ -20,8 +20,9 @@ $(".btn-primary").click(function (event) {
                     console.log(data);
                     $("#card-container").empty();
                     data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
+                    data.items.forEach(item => item.volumeInfo.ratingsCount ? true : item.volumeInfo.ratingsCount = 0);
                     var items = data.items;
-                    items.sort((a, b) => b.volumeInfo.averageRating - a.volumeInfo.averageRating);
+                    items.sort((a, b) => b.volumeInfo.ratingsCount - a.volumeInfo.ratingsCount);
                     for (let i = 0; i < data.items.length; i++) {
                         var title = (data.items[i].volumeInfo.title);
                         var rating = (data.items[i].volumeInfo.averageRating);
@@ -83,8 +84,7 @@ $(".btn-primary").click(function (event) {
                     console.log(data);
                     var movieTitle = (data.Title);
                     var movieRating = (data.imdbRating);
-                    console.log(movieRating);
-                    console.log(movieTitle);
+                    var moviePoster = (data.Poster);
 
                     var movieCard = $('<div>').addClass('card');
                     var movieCardImg = $('<img>').addClass('card-img-top');
@@ -104,7 +104,7 @@ $(".btn-primary").click(function (event) {
 
                     movieCardTitle.text(movieTitle);
                     movieCardParagraph.text(movieRating + "/10");
-                    console.log(movieCardParagraph);
+                    movieCardImg.attr('src', moviePoster);
 
                     $("#movie-container").append(movieCard);
                     // generateCard(data.items[i].volumeInfo);
