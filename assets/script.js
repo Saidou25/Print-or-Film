@@ -1,6 +1,8 @@
+// APIs
 var googleBooks = "https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyAwpnTlCB_XLFsQfftXziK3rDq7m9vf6R0";
 var omdb = "http://www.omdbapi.com/?i=tt3896198&apikey=56ad700b";
 
+// Fetch requests and search-results card generation
 var displayBooks = function (data) {
   $("#card-container").empty();
   data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
@@ -58,7 +60,7 @@ var displayMovie = function (data) {
   var movieCardTitle = $('<h5>').addClass('card-title');
   var movieCardParagraph = $('<p>').addClass('card-text');
   var movieCardLink = $('<button>').addClass('btn btn-secondary');
-  
+
   movieCardLink.text('Add to Watchlist');
   movieCardTitle.text(movieTitle);
   movieCardParagraph.text(movieRating + "/10");
@@ -75,11 +77,11 @@ var displayMovie = function (data) {
     .append(movieCardRowDiv)
     .append(movieCardBodyDiv);
 
-  movieCard.append(movieCardRow);   
+  movieCard.append(movieCardRow);
 
 
   $("#movie-container").append(movieCard);
-  
+
 }
 
 var fetchBooks = function (q) {
@@ -120,7 +122,6 @@ var fetchResults = function (q) {
   fetchBooks(q);
 };
 
-
 // Search Bar
 $(document).on('click', '.btn-primary', function (event) {
   event.preventDefault();
@@ -131,24 +132,22 @@ $(document).on('click', '.btn-primary', function (event) {
   };
 });
 
-// Local Storage
+// Watchlist Button Event Listeners
 $(document).on('click', '.btn-secondary', function () {
-  var movieSave = $(this).siblings('.card-title');  
-  console.log(movieSave);
+  // var movieSave = $(this).siblings('.card-title');  
+  // console.log(movieSave);
+  console.log("click movie")
+  console.log($(this));
 });
 $(document).on('click', '.btn-info', function () {
-  console.log("click");
+  console.log("click book");
   console.log($(this));
 });
 
-// var saveBtn = $('.btn-secondary');
+// Local Storage
 
-// $(saveBtn).click(function () {
-//   var text = $(this).siblings(cardImg).val();
-//   console.log("click");
-//   localStorage.setItem(time, text);
-// });
 
+// Redirects home page to search results
 if (location.href.includes('search-results.html') && location.search) {
   var params = new URLSearchParams(location.search);
   var q = params.get('q');
