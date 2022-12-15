@@ -40,7 +40,6 @@ var displayBooks = function (data) {
 
 
     $("#card-container").append(col);
-    // generateCard(data.items[i].volumeInfo);  
   }
 }
 
@@ -178,30 +177,117 @@ if (location.href.includes('watchlist.html')) {
   for (var i = 0; i < bookItems.length; i++) {
     var q = bookItems[i];
     var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + q;
-  // Book Results
-  fetch(bookUrl)
-    .then(function (response) {
-      if (response.ok) {
-        console.log(response);
-        response.json().then(displayBooks);
-      }
-    })
-    .catch(function (error) {
-      // No alerts - redirect to error message "modal"
-      alert('No results found!');
-    });
+    // Book Results
+    fetch(bookUrl)
+      .then(function (response) {
+        if (response.ok) {
+          console.log(response);
+          response.json().then(watchBooks);
+        }
+      })
+      .catch(function (error) {
+        // No alerts - redirect to error message "modal"
+        alert('No results found!');
+      });
 
-  // Movie Results
-  var movieItems = localStorage.getItem("movies") || '[]';
-  movieItems = JSON.parse(movieItems);
-  console.log(movieItems);
-  for (var i = 0; i < movieItems.length; i++) {
-    var q = movieItems[i];
-    var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + q;
-  fetch(movieURL)
-    .then(function (response) {
-      if (response.ok) {
-        console.log(response);
-        response.json().then(displayMovie);
-  }})
-}}}
+    // Movie Results
+    var movieItems = localStorage.getItem("movies") || '[]';
+    movieItems = JSON.parse(movieItems);
+    console.log(movieItems);
+    for (var i = 0; i < movieItems.length; i++) {
+      var q = movieItems[i];
+      var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + q;
+      fetch(movieURL)
+        .then(function (response) {
+          if (response.ok) {
+            console.log(response);
+            response.json().then(watchMovie);
+          }
+        })
+    }
+  }
+}
+
+// Watchlist Movie Card Generation
+var watchMovie = function (data) {
+  $("#watch-movie-container").empty();
+  var wMovieTitle = (data.Title);
+  var wMovieRating = (data.imdbRating);
+  var wMoviePoster = (data.Poster);
+
+  var wMovieCard = $('<div>').addClass('card mb-3');
+  var wMovieCardRow = $('<div>').addClass('row g-0');
+  var wMovieCardRowDiv = $('<div>').addClass('col-sm-4 col-xs-12');
+  var wMovieCardImg = $('<img>').addClass('card-img-top');
+  var wMovieCardBodyDiv = $('<div>').addClass('col-md-8');
+  var wMovieCardBody = $('<div>').addClass('card-body');
+  var wMovieCardTitle = $('<h5>').addClass('card-title');
+  var wMovieCardParagraph = $('<p>').addClass('card-text');
+  var wMovieCardLink = $('<button>').addClass('btn btn-secondary');
+
+  wMovieCardLink.attr('id', wMovieTitle);
+  wMovieCardLink.text('Add to Watchlist');
+  wMovieCardTitle.text(wMovieTitle);
+  wMovieCardParagraph.text(wMovieRating + "/10");
+  wMovieCardImg.attr('src', wMoviePoster);
+
+  wMovieCardBody
+    .append(wMovieCardTitle)
+    .append(wMovieCardParagraph)
+    .append(wMovieCardLink);
+
+  wMovieCardBodyDiv.append(wMovieCardBody)
+  wMovieCardRowDiv.append(wMovieCardImg)
+  wMovieCardRow
+    .append(wMovieCardRowDiv)
+    .append(wMovieCardBodyDiv);
+
+  wMovieCard.append(wMovieCardRow);
+
+
+  $("#watch-movie-container").append(wMovieCard);
+
+}
+
+// Watchlist Book Card Generation
+var watchBooks = function (data) {
+  $("#watch-book-container").empty();
+  data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
+  data.items.forEach(item => item.volumeInfo.ratingsCount ? true : item.volumeInfo.ratingsCount = 0);
+  var items = data.items;
+  items.sort((a, b) => b.volumeInfo.ratingsCount - a.volumeInfo.ratingsCount);
+  for (var i = 0; i < data.items.length; i++) {
+    var title = (data.items[i].volumeInfo.title);
+    var rating = (data.items[i].volumeInfo.averageRating);
+    var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
+
+    var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12');
+    var card = $('<div>').addClass('card');
+    var cardImg = $('<img>').addClass('card-img-top');
+    var cardBody = $('<div>').addClass('card-body');
+    var cardTitle = $('<h5>').addClass('card-title');
+    var cardParagraph = $('<p>').addClass('card-text');
+    var cardLink = $('<button>').addClass('btn btn-info');
+
+    cardTitle.text(title);
+    cardParagraph.text(rating + "/5");
+    cardImg.attr('src', img);
+    cardLink.attr('id', title);
+    cardLink.text('Add to Reading List');
+
+    cardBody
+      .append(cardTitle)
+      .append(cardParagraph)
+      .append(cardLink);
+
+    card
+      .append(cardImg)
+      .append(cardBody);
+
+    col
+      .append(card);
+
+
+    $("#watch-book-container").append(col);
+  }
+}
