@@ -1,15 +1,13 @@
-// APIs
 var googleBooks = "https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyAwpnTlCB_XLFsQfftXziK3rDq7m9vf6R0";
 var omdb = "http://www.omdbapi.com/?i=tt3896198&apikey=56ad700b";
 
-// Fetch requests and search-results card generation
 var displayBooks = function (data) {
   $("#card-container").empty();
   data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
   data.items.forEach(item => item.volumeInfo.ratingsCount ? true : item.volumeInfo.ratingsCount = 0);
   var items = data.items;
   items.sort((a, b) => b.volumeInfo.ratingsCount - a.volumeInfo.ratingsCount);
-  for (let i = 0; i < data.items.length; i++) {
+  for (var i = 0; i < data.items.length; i++) {
     var title = (data.items[i].volumeInfo.title);
     var rating = (data.items[i].volumeInfo.averageRating);
     var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
@@ -25,6 +23,7 @@ var displayBooks = function (data) {
     cardTitle.text(title);
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
+    cardLink.attr('id', title);
     cardLink.text('Add to Reading List');
 
     cardBody
@@ -61,6 +60,7 @@ var displayMovie = function (data) {
   var movieCardParagraph = $('<p>').addClass('card-text');
   var movieCardLink = $('<button>').addClass('btn btn-secondary');
 
+  movieCardLink.attr('id', movieTitle);
   movieCardLink.text('Add to Watchlist');
   movieCardTitle.text(movieTitle);
   movieCardParagraph.text(movieRating + "/10");
@@ -122,6 +122,7 @@ var fetchResults = function (q) {
   fetchBooks(q);
 };
 
+
 // Search Bar
 $(document).on('click', '.btn-primary', function (event) {
   event.preventDefault();
@@ -132,24 +133,75 @@ $(document).on('click', '.btn-primary', function (event) {
   };
 });
 
-// Watchlist Button Event Listeners
-$(document).on('click', '.btn-secondary', function () {
-  // var movieSave = $(this).siblings('.card-title');  
-  // console.log(movieSave);
-  console.log("click movie")
-  console.log($(this));
-});
-$(document).on('click', '.btn-info', function () {
-  console.log("click book");
-  console.log($(this));
-});
-
 // Local Storage
+$(document).on('click', '.btn-secondary', function () {
+  var movieSave = $(this).attr('id');
 
 
-// Redirects home page to search results
+  // get items from localStorage, or declare new one if not exist
+  var movieItems = localStorage.getItem("movies") || '[]';
+  movieItems = JSON.parse(movieItems);
+  // declare and add the new item
+  movieItems.push(movieSave);
+  localStorage.setItem("movies", JSON.stringify(movieItems));
+  console.log(movieItems);
+  $(this).addClass('btn-danger');
+  $(this).text("Added to Watchlist!")
+});
+
+$(document).on('click', '.btn-info', function () {
+  var bookSave = $(this).attr('id');
+
+
+  // get items from localStorage, or declare new one if not exist
+  var bookItems = localStorage.getItem("books") || '[]';
+  bookItems = JSON.parse(bookItems);
+  // declare and add the new item
+  bookItems.push(bookSave);
+  localStorage.setItem("books", JSON.stringify(bookItems));
+  console.log(bookItems);
+  $(this).addClass('btn-danger');
+  $(this).text("Added to Reading List!")
+});
+
 if (location.href.includes('search-results.html') && location.search) {
   var params = new URLSearchParams(location.search);
   var q = params.get('q');
   if (q) fetchResults(q);
 }
+
+if (location.href.includes('watchlist.html')) {
+  // Book Results
+  var bookItems = localStorage.getItem("books") || '[]';
+  bookItems = JSON.parse(bookItems);
+  console.log(bookItems);
+  for (var i = 0; i < bookItems.length; i++) {
+    var q = bookItems[i];
+    var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + q;
+  // Book Results
+  fetch(bookUrl)
+    .then(function (response) {
+      if (response.ok) {
+        console.log(response);
+        response.json().then(displayBooks);
+      }
+    })
+    .catch(function (error) {
+      // No alerts - redirect to error message "modal"
+      alert('No results found!');
+    });
+
+  // Movie Results
+  var movieItems = localStorage.getItem("movies") || '[]';
+  movieItems = JSON.parse(movieItems);
+  console.log(movieItems);
+  for (var i = 0; i < movieItems.length; i++) {
+    var q = movieItems[i];
+    var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + q;
+  fetch(movieURL)
+    .then(function (response) {
+      if (response.ok) {
+        console.log(response);
+        response.json().then(displayMovie);
+  }})
+}}}
