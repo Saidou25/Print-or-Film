@@ -51,6 +51,10 @@ var displayMovie = function (data) {
   var moviePoster = (data.Poster);
   var movieId = (data.imdbID);
 
+  if (movieId === undefined) {
+    console.log(nope);
+}
+
   var movieCard = $('<div>').addClass('card mb-3');
   var movieCardRow = $('<div>').addClass('row g-0');
   var movieCardRowDiv = $('<div>').addClass('col-sm-4 col-xs-12');
@@ -111,7 +115,23 @@ var fetchMovie = function (q) {
         response.json().then(displayMovie)
           .catch(function (error) {
             // no alert messages
-            alert('No results found!');
+        var noMovie = $("<5>").addClass("No-movie-results");
+        console.log(noMovie);
+var noMovieCol =$("<div").addClass("no-movie-col")
+        var noMovieBody = $("<div>").addClass("no-movie-body");
+
+        var noMovieCard = $("<div>").addClass("no-movie-card");
+
+        noMovieBody
+        .append(noMovie);
+        
+        noMovieCard
+        .append(noMovieBody);
+
+        noMovieCol
+        .append(nnoMovieColMovieCard);
+
+$("#movie-container").append(noMovieCol);
           });
 
       }
