@@ -3,7 +3,7 @@ An app to help you pick the best version of a book a movie is based on.
 
 [Link to this project's repository](https://github.com/Saidou25/Print-or-Film)
 
-[Link to my project page]()
+[Which to Read? Page](https://saidou25.github.io/Print-or-Film/)
 
 ## Table of Contents
 - [Description](#description)

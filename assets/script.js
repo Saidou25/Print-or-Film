@@ -12,7 +12,7 @@ var displayBooks = function (data) {
     var rating = (data.items[i].volumeInfo.averageRating);
     var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
     var id = (data.items[i].id);
-    
+
     var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12');
     var card = $('<div>').addClass('card');
     var cardImg = $('<img>').addClass('card-img-top');
@@ -25,7 +25,7 @@ var displayBooks = function (data) {
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
     cardLink.attr('id', id);
-    cardLink.text('Add to Reading List');
+    cardLink.text('☆ Add to Reading List');
 
     cardBody
       .append(cardTitle)
@@ -62,7 +62,7 @@ var displayMovie = function (data) {
   var movieCardLink = $('<button>').addClass('btn btn-secondary');
 
   movieCardLink.attr('id', movieId);
-  movieCardLink.text('Add to Watchlist');
+  movieCardLink.text('☆ Add to Watchlist');
   movieCardTitle.text(movieTitle);
   movieCardParagraph.text(movieRating + "/10");
   movieCardImg.attr('src', moviePoster);
@@ -147,7 +147,7 @@ $(document).on('click', '.btn-secondary', function () {
   localStorage.setItem("movies", JSON.stringify(movieItems));
   console.log(movieItems);
   $(this).addClass('btn-danger');
-  $(this).text("Added to Watchlist!")
+  $(this).text("★ Added to Watchlist!")
 });
 
 $(document).on('click', '.btn-info', function () {
@@ -162,7 +162,7 @@ $(document).on('click', '.btn-info', function () {
   localStorage.setItem("books", JSON.stringify(bookItems));
   console.log(bookItems);
   $(this).addClass('btn-danger');
-  $(this).text("Added to Reading List!")
+  $(this).text("★ Added to Reading List!")
 });
 
 if (location.href.includes('search-results.html') && location.search) {
@@ -176,7 +176,7 @@ if (location.href.includes('watchlist.html')) {
   var bookItems = localStorage.getItem("books") || '[]';
   bookItems = JSON.parse(bookItems);
   console.log(bookItems);
-  if(bookItems.length) $("#watch-book-container").empty();
+  if (bookItems.length) $("#watch-book-container").empty();
   for (var i = 0; i < bookItems.length; i++) {
     var q = bookItems[i];
     console.log(q);
@@ -186,7 +186,7 @@ if (location.href.includes('watchlist.html')) {
       .then(function (response) {
         if (response.ok) {
           console.log(response);
-          response.json().then(data=>watchBooks(data,false));
+          response.json().then(data => watchBooks(data, false));
         }
       })
       .catch(function (error) {
@@ -199,7 +199,7 @@ if (location.href.includes('watchlist.html')) {
   var movieItems = localStorage.getItem("movies") || '[]';
   movieItems = JSON.parse(movieItems);
   console.log(movieItems);
-  if(movieItems.length) $("#watch-movie-container").empty();
+  if (movieItems.length) $("#watch-movie-container").empty();
   for (var i = 0; i < movieItems.length; i++) {
     var q = movieItems[i];
     var movieURL = 'https://www.omdbapi.com/?apikey=56ad700b&i=' + q;
@@ -207,14 +207,14 @@ if (location.href.includes('watchlist.html')) {
       .then(function (response) {
         if (response.ok) {
           console.log(response);
-          response.json().then(data=>watchMovie(data,false));
+          response.json().then(data => watchMovie(data, false));
         }
       })
   }
 }
 
 // Watchlist Movie Card Generation
-var watchMovie = function (data,clear) {
+var watchMovie = function (data, clear) {
   clear && $("#watch-movie-container").empty();
   var wMovieTitle = (data.Title);
   var wMovieRating = (data.imdbRating);
@@ -232,7 +232,7 @@ var watchMovie = function (data,clear) {
   var wMovieCardLink = $('<button>').addClass('btn btn-secondary');
 
   wMovieCardLink.attr('id', wMovieTitle);
-  wMovieCardLink.text('Remove from Watchlist');
+  wMovieCardLink.text('★ Remove from Watchlist');
   wMovieCardTitle.text(wMovieTitle);
   wMovieCardParagraph.text(wMovieRating + "/10");
   wMovieCardImg.attr('src', wMoviePoster);
@@ -257,7 +257,7 @@ var watchMovie = function (data,clear) {
 }
 
 // Watchlist Book Card Generation
-var watchBooks = function (data,clear) {
+var watchBooks = function (data, clear) {
   clear && $("#watch-book-container").empty();
   var items = data.items;
   items.sort((a, b) => b.volumeInfo.ratingsCount - a.volumeInfo.ratingsCount);
