@@ -295,50 +295,42 @@ var watchMovie = function (data, clear) {
 // Watchlist Book Card Generation
 var watchBooks = function (data, clear) {
   clear && $("#watch-book-container").empty();
-  var items = data.items;
-  items.sort((a, b) => b.volumeInfo.ratingsCount - a.volumeInfo.ratingsCount);
-  for (var i = 0; i < data.items.length; i++) {
-    var title = (data.items[i].volumeInfo.title);
-    var rating = (data.items[i].volumeInfo.averageRating);
-    var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
-    var id = (data.items[i].id);
+  var title = (data.items[i].volumeInfo.title);
+  var rating = (data.items[i].volumeInfo.averageRating);
+  var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
+  var id = (data.items[i].id);
 
 
-    var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 p-2');
-    var card = $('<div>').addClass('card');
-    var cardImg = $('<img>').addClass('card-img-top');
-    var cardBody = $('<div>').addClass('card-body');
-    var cardTitle = $('<h5>').addClass('card-title');
-    var cardParagraph = $('<p>').addClass('card-text');
-    var cardLink = $('<button>').addClass('btn btn-info');
+  var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 p-2');
+  var card = $('<div>').addClass('card');
+  var cardImg = $('<img>').addClass('card-img-top');
+  var cardBody = $('<div>').addClass('card-body');
+  var cardTitle = $('<h5>').addClass('card-title');
+  var cardParagraph = $('<p>').addClass('card-text');
+  var cardLink = $('<button>').addClass('btn btn-info');
 
-    cardTitle.text(title);
-    cardParagraph.text(rating + "/5");
-    cardImg.attr('src', img);
-    cardLink.attr('id', id);
-    cardLink.text('★ Remove from Reading List');
+  cardTitle.text(title);
+  cardParagraph.text(rating + "/5");
+  cardImg.attr('src', img);
+  cardLink.attr('id', id);
+  cardLink.text('★ Remove from Reading List');
 
-    var movieItems = localStorage.getItem("movies") || '[]';
-    movieItems = JSON.parse(movieItems);
-    if (id == movieItems)
-      console.log('match')
+  cardBody
+    .append(cardTitle)
+    .append(cardParagraph)
+    .append(cardLink);
 
-    cardBody
-      .append(cardTitle)
-      .append(cardParagraph)
-      .append(cardLink);
+  card
+    .append(cardImg)
+    .append(cardBody);
 
-    card
-      .append(cardImg)
-      .append(cardBody);
-
-    col
-      .append(card);
+  col
+    .append(card);
 
 
-    $("#watch-book-container").append(col);
-  }
+  $("#watch-book-container").append(col);
 }
+
 
 
 var buttonEl = $('.btn');
