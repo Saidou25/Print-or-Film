@@ -102,7 +102,7 @@ var fetchBooks = function (q) {
 }
 
 var fetchMovie = function (q) {
-  var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + q;
+  var movieURL = 'https://www.omdbapi.com/?apikey=56ad700b&t=' + q;
   // Movie Results
   fetch(movieURL)
     .then(function (response) {
@@ -202,7 +202,7 @@ if (location.href.includes('watchlist.html')) {
   if(movieItems.length) $("#watch-movie-container").empty();
   for (var i = 0; i < movieItems.length; i++) {
     var q = movieItems[i];
-    var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&i=' + q;
+    var movieURL = 'https://www.omdbapi.com/?apikey=56ad700b&i=' + q;
     fetch(movieURL)
       .then(function (response) {
         if (response.ok) {
