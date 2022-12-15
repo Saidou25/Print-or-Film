@@ -176,15 +176,17 @@ if (location.href.includes('watchlist.html')) {
   var bookItems = localStorage.getItem("books") || '[]';
   bookItems = JSON.parse(bookItems);
   console.log(bookItems);
+  if(bookItems.length) $("#watch-book-container").empty();
   for (var i = 0; i < bookItems.length; i++) {
     var q = bookItems[i];
+    console.log(q);
     var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + q;
     // Book Results
     fetch(bookUrl)
       .then(function (response) {
         if (response.ok) {
           console.log(response);
-          response.json().then(watchBooks);
+          response.json().then(data=>watchBooks(data,false));
         }
       })
       .catch(function (error) {
@@ -193,30 +195,32 @@ if (location.href.includes('watchlist.html')) {
       });
 
     // Movie Results
-    var movieItems = localStorage.getItem("movies") || '[]';
-    movieItems = JSON.parse(movieItems);
-    console.log(movieItems);
-    for (var i = 0; i < movieItems.length; i++) {
-      var q = movieItems[i];
-      var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&i=' + q;
-      fetch(movieURL)
-        .then(function (response) {
-          if (response.ok) {
-            console.log(response);
-            response.json().then(watchMovie);
-          }
-        })
-    }
+  }
+  var movieItems = localStorage.getItem("movies") || '[]';
+  movieItems = JSON.parse(movieItems);
+  console.log(movieItems);
+  if(movieItems.length) $("#watch-movie-container").empty();
+  for (var i = 0; i < movieItems.length; i++) {
+    var q = movieItems[i];
+    var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&i=' + q;
+    fetch(movieURL)
+      .then(function (response) {
+        if (response.ok) {
+          console.log(response);
+          response.json().then(data=>watchMovie(data,false));
+        }
+      })
   }
 }
 
 // Watchlist Movie Card Generation
-var watchMovie = function (data) {
-  $("#watch-movie-container").empty();
+var watchMovie = function (data,clear) {
+  clear && $("#watch-movie-container").empty();
   var wMovieTitle = (data.Title);
   var wMovieRating = (data.imdbRating);
   var wMoviePoster = (data.Poster);
 
+  var wMovieCol = $('<div>').addClass("col-12 col-lg-11 col-md-11 col-sm-12 bg-secondary rounded pt-2");
   var wMovieCard = $('<div>').addClass('card mb-3');
   var wMovieCardRow = $('<div>').addClass('row g-0');
   var wMovieCardRowDiv = $('<div>').addClass('col-sm-4 col-xs-12');
@@ -228,7 +232,7 @@ var watchMovie = function (data) {
   var wMovieCardLink = $('<button>').addClass('btn btn-secondary');
 
   wMovieCardLink.attr('id', wMovieTitle);
-  wMovieCardLink.text('Add to Watchlist');
+  wMovieCardLink.text('Remove from Watchlist');
   wMovieCardTitle.text(wMovieTitle);
   wMovieCardParagraph.text(wMovieRating + "/10");
   wMovieCardImg.attr('src', wMoviePoster);
@@ -245,17 +249,16 @@ var watchMovie = function (data) {
     .append(wMovieCardBodyDiv);
 
   wMovieCard.append(wMovieCardRow);
+  wMovieCol.append(wMovieCard);
 
 
-  $("#watch-movie-container").append(wMovieCard);
+  $("#watch-movie-container").append(wMovieCol);
 
 }
 
 // Watchlist Book Card Generation
-var watchBooks = function (data) {
-  $("#watch-book-container").empty();
-  data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
-  data.items.forEach(item => item.volumeInfo.ratingsCount ? true : item.volumeInfo.ratingsCount = 0);
+var watchBooks = function (data,clear) {
+  clear && $("#watch-book-container").empty();
   var items = data.items;
   items.sort((a, b) => b.volumeInfo.ratingsCount - a.volumeInfo.ratingsCount);
   for (var i = 0; i < data.items.length; i++) {
@@ -263,7 +266,7 @@ var watchBooks = function (data) {
     var rating = (data.items[i].volumeInfo.averageRating);
     var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
 
-    var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12');
+    var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 pt-2');
     var card = $('<div>').addClass('card');
     var cardImg = $('<img>').addClass('card-img-top');
     var cardBody = $('<div>').addClass('card-body');
@@ -275,7 +278,7 @@ var watchBooks = function (data) {
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
     cardLink.attr('id', title);
-    cardLink.text('Add to Reading List');
+    cardLink.text('Remove from Reading List');
 
     cardBody
       .append(cardTitle)
