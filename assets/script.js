@@ -11,7 +11,8 @@ var displayBooks = function (data) {
     var title = (data.items[i].volumeInfo.title);
     var rating = (data.items[i].volumeInfo.averageRating);
     var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
-
+    var id = (data.items[i].id);
+    
     var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12');
     var card = $('<div>').addClass('card');
     var cardImg = $('<img>').addClass('card-img-top');
@@ -23,7 +24,7 @@ var displayBooks = function (data) {
     cardTitle.text(title);
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
-    cardLink.attr('id', title);
+    cardLink.attr('id', id);
     cardLink.text('Add to Reading List');
 
     cardBody
@@ -48,6 +49,7 @@ var displayMovie = function (data) {
   var movieTitle = (data.Title);
   var movieRating = (data.imdbRating);
   var moviePoster = (data.Poster);
+  var movieId = (data.imdbID);
 
   var movieCard = $('<div>').addClass('card mb-3');
   var movieCardRow = $('<div>').addClass('row g-0');
@@ -59,7 +61,7 @@ var displayMovie = function (data) {
   var movieCardParagraph = $('<p>').addClass('card-text');
   var movieCardLink = $('<button>').addClass('btn btn-secondary');
 
-  movieCardLink.attr('id', movieTitle);
+  movieCardLink.attr('id', movieId);
   movieCardLink.text('Add to Watchlist');
   movieCardTitle.text(movieTitle);
   movieCardParagraph.text(movieRating + "/10");
