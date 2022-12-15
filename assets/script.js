@@ -53,7 +53,7 @@ var displayMovie = function (data) {
 
   if (movieId === undefined) {
     console.log(nope);
-}
+  }
 
   var movieCard = $('<div>').addClass('card mb-3');
   var movieCardRow = $('<div>').addClass('row g-0');
@@ -101,23 +101,23 @@ var fetchBooks = function (q) {
     })
     .catch(function (error) {
       // No alerts - redirect to error message "modal"
-//       var noBook = $("<h5>").addClass("No-Book-results");
-//       console.log(noMovie);
-// var noBookCol = $("<div>").addClass("no-Book-col");
-//       var noBookBody = $("<div>").addClass("no-Book-body");
+      //       var noBook = $("<h5>").addClass("No-Book-results");
+      //       console.log(noMovie);
+      // var noBookCol = $("<div>").addClass("no-Book-col");
+      //       var noBookBody = $("<div>").addClass("no-Book-body");
 
-//       var noBookCard = $("<div>").addClass("no-Book-card");
-//       noBook.text("No book found.");
-//       noBookBody
-//       .append(noBook);
-      
-//       noBookCard
-//       .append(noBookBody);
+      //       var noBookCard = $("<div>").addClass("no-Book-card");
+      //       noBook.text("No book found.");
+      //       noBookBody
+      //       .append(noBook);
 
-//       noBookCol
-//       .append(noBookCard);
+      //       noBookCard
+      //       .append(noBookBody);
 
-// $("#book-container").append(noBookCol);
+      //       noBookCol
+      //       .append(noBookCard);
+
+      // $("#book-container").append(noBookCol);
     });
 }
 
@@ -131,23 +131,23 @@ var fetchMovie = function (q) {
         response.json().then(displayMovie)
           .catch(function (error) {
             // no alert messages
-        var noMovie = $("<h5>").addClass("No-movie-results");
-        console.log(noMovie);
-var noMovieCol =$("<div>").addClass("no-movie-col")
-        var noMovieBody = $("<div>").addClass("no-movie-body");
+            var noMovie = $("<h5>").addClass("No-movie-results");
+            console.log(noMovie);
+            var noMovieCol = $("<div>").addClass("no-movie-col")
+            var noMovieBody = $("<div>").addClass("no-movie-body");
 
-        var noMovieCard = $("<div>").addClass("no-movie-card");
-        noMovie.text("No movie found.");
-        noMovieBody
-        .append(noMovie);
-        
-        noMovieCard
-        .append(noMovieBody);
+            var noMovieCard = $("<div>").addClass("no-movie-card");
+            noMovie.text("No movie found.");
+            noMovieBody
+              .append(noMovie);
 
-        noMovieCol
-        .append(noMovieCard);
+            noMovieCard
+              .append(noMovieBody);
 
-$("#movie-container").append(noMovieCol);
+            noMovieCol
+              .append(noMovieCard);
+
+            $("#movie-container").append(noMovieCol);
           });
 
       }
@@ -250,22 +250,22 @@ if (location.href.includes('watchlist.html')) {
 // Watchlist Movie Card Generation
 var watchMovie = function (data, clear) {
   clear && $("#watch-movie-container").empty();
+
   var wMovieTitle = (data.Title);
   var wMovieRating = (data.imdbRating);
   var wMoviePoster = (data.Poster);
   var wMovieId = (data.imdbID);
 
-
-  var wMovieCol = $('<div>').addClass("col-12 col-lg-11 col-md-11 col-sm-12 bg-secondary rounded pt-2");
+  var wMovieCol = $('<div>').addClass("col-12 col-lg-4 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 pt-2");
   var wMovieCard = $('<div>').addClass('card mb-3');
   var wMovieCardRow = $('<div>').addClass('row g-0');
-  var wMovieCardRowDiv = $('<div>').addClass('col-sm-4 col-xs-12');
+  var wMovieCardRowDiv = $('<div>').addClass('col-12 col-lg-4');
   var wMovieCardImg = $('<img>').addClass('card-img-top');
-  var wMovieCardBodyDiv = $('<div>').addClass('col-md-8');
+  var wMovieCardBodyDiv = $('<div>').addClass('col-12');
   var wMovieCardBody = $('<div>').addClass('card-body');
   var wMovieCardTitle = $('<h5>').addClass('card-title');
   var wMovieCardParagraph = $('<p>').addClass('card-text');
-  var wMovieCardLink = $('<button>').addClass('btn btn-secondary');
+  var wMovieCardLink = $('<button>').addClass('btn btn-info');
 
   wMovieCardLink.attr('id', wMovieId);
   wMovieCardLink.text('★ Remove from Watchlist');
@@ -304,7 +304,7 @@ var watchBooks = function (data, clear) {
     var id = (data.items[i].id);
 
 
-    var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 pt-2');
+    var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 p-2');
     var card = $('<div>').addClass('card');
     var cardImg = $('<img>').addClass('card-img-top');
     var cardBody = $('<div>').addClass('card-body');
@@ -316,12 +316,12 @@ var watchBooks = function (data, clear) {
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
     cardLink.attr('id', id);
-    cardLink.text('Remove from Reading List');
+    cardLink.text('★ Remove from Reading List');
 
     var movieItems = localStorage.getItem("movies") || '[]';
     movieItems = JSON.parse(movieItems);
-    if(id == movieItems)
-    console.log('match')
+    if (id == movieItems)
+      console.log('match')
 
     cardBody
       .append(cardTitle)
@@ -344,5 +344,5 @@ var watchBooks = function (data, clear) {
 var buttonEl = $('.btn');
 console.log(buttonEl.id)
 var movieItems = localStorage.getItem("movies") || '[]';
-  movieItems = JSON.parse(movieItems);
-  console.log(movieItems);
+movieItems = JSON.parse(movieItems);
+console.log(movieItems);
