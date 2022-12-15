@@ -247,7 +247,7 @@ if (location.href.includes('watchlist.html')) {
   }
 }
 
-// Watchlist Movie Card Generation
+// Watchlist Movie Card Generation TO DO
 var watchMovie = function (data, clear) {
   clear && $("#watch-movie-container").empty();
 
