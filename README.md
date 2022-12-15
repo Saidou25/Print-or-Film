@@ -1,7 +1,7 @@
 # Which to Read?
 An app to help you pick the best version of a book a movie is based on.
 
-[Link to this project's repository]()
+[Link to this project's repository](https://github.com/Saidou25/Print-or-Film)
 
 [Link to my project page]()
 
@@ -22,4 +22,4 @@ This project was created using [GoogleBooks](https://developers.google.com/books
 
 ## Visuals
 
-![Website Sample](./assets/)
+![Website Sample](./assets/images/search-results.png)
