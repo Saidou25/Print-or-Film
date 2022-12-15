@@ -138,7 +138,6 @@ $(document).on('click', '.btn-primary', function (event) {
 $(document).on('click', '.btn-secondary', function () {
   var movieSave = $(this).attr('id');
 
-
   // get items from localStorage, or declare new one if not exist
   var movieItems = localStorage.getItem("movies") || '[]';
   movieItems = JSON.parse(movieItems);
@@ -152,7 +151,6 @@ $(document).on('click', '.btn-secondary', function () {
 
 $(document).on('click', '.btn-info', function () {
   var bookSave = $(this).attr('id');
-
 
   // get items from localStorage, or declare new one if not exist
   var bookItems = localStorage.getItem("books") || '[]';
@@ -219,6 +217,8 @@ var watchMovie = function (data, clear) {
   var wMovieTitle = (data.Title);
   var wMovieRating = (data.imdbRating);
   var wMoviePoster = (data.Poster);
+  var wMovieId = (data.imdbID);
+
 
   var wMovieCol = $('<div>').addClass("col-12 col-lg-11 col-md-11 col-sm-12 bg-secondary rounded pt-2");
   var wMovieCard = $('<div>').addClass('card mb-3');
@@ -231,7 +231,7 @@ var watchMovie = function (data, clear) {
   var wMovieCardParagraph = $('<p>').addClass('card-text');
   var wMovieCardLink = $('<button>').addClass('btn btn-secondary');
 
-  wMovieCardLink.attr('id', wMovieTitle);
+  wMovieCardLink.attr('id', wMovieId);
   wMovieCardLink.text('★ Remove from Watchlist');
   wMovieCardTitle.text(wMovieTitle);
   wMovieCardParagraph.text(wMovieRating + "/10");
@@ -265,6 +265,8 @@ var watchBooks = function (data, clear) {
     var title = (data.items[i].volumeInfo.title);
     var rating = (data.items[i].volumeInfo.averageRating);
     var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
+    var id = (data.items[i].id);
+
 
     var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 pt-2');
     var card = $('<div>').addClass('card');
@@ -277,8 +279,13 @@ var watchBooks = function (data, clear) {
     cardTitle.text(title);
     cardParagraph.text(rating + "/5");
     cardImg.attr('src', img);
-    cardLink.attr('id', title);
+    cardLink.attr('id', id);
     cardLink.text('Remove from Reading List');
+
+    var movieItems = localStorage.getItem("movies") || '[]';
+    movieItems = JSON.parse(movieItems);
+    if(id == movieItems)
+    console.log('match')
 
     cardBody
       .append(cardTitle)
@@ -296,3 +303,10 @@ var watchBooks = function (data, clear) {
     $("#watch-book-container").append(col);
   }
 }
+
+
+var buttonEl = $('.btn');
+console.log(buttonEl.id)
+var movieItems = localStorage.getItem("movies") || '[]';
+  movieItems = JSON.parse(movieItems);
+  console.log(movieItems);
