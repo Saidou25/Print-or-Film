@@ -300,7 +300,6 @@ var watchBooks = function (data, clear) {
   var img = (data.items[i].volumeInfo.imageLinks.smallThumbnail);
   var id = (data.items[i].id);
 
-
   var col = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 p-2');
   var card = $('<div>').addClass('card');
   var cardImg = $('<img>').addClass('card-img-top');
