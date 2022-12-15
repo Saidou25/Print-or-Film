@@ -198,7 +198,7 @@ if (location.href.includes('watchlist.html')) {
     console.log(movieItems);
     for (var i = 0; i < movieItems.length; i++) {
       var q = movieItems[i];
-      var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&t=' + q;
+      var movieURL = 'http://www.omdbapi.com/?apikey=56ad700b&i=' + q;
       fetch(movieURL)
         .then(function (response) {
           if (response.ok) {
