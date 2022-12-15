@@ -101,7 +101,23 @@ var fetchBooks = function (q) {
     })
     .catch(function (error) {
       // No alerts - redirect to error message "modal"
-      alert('No results found!');
+//       var noBook = $("<h5>").addClass("No-Book-results");
+//       console.log(noMovie);
+// var noBookCol = $("<div>").addClass("no-Book-col");
+//       var noBookBody = $("<div>").addClass("no-Book-body");
+
+//       var noBookCard = $("<div>").addClass("no-Book-card");
+//       noBook.text("No book found.");
+//       noBookBody
+//       .append(noBook);
+      
+//       noBookCard
+//       .append(noBookBody);
+
+//       noBookCol
+//       .append(noBookCard);
+
+// $("#book-container").append(noBookCol);
     });
 }
 
@@ -115,13 +131,13 @@ var fetchMovie = function (q) {
         response.json().then(displayMovie)
           .catch(function (error) {
             // no alert messages
-        var noMovie = $("<5>").addClass("No-movie-results");
+        var noMovie = $("<h5>").addClass("No-movie-results");
         console.log(noMovie);
-var noMovieCol =$("<div").addClass("no-movie-col")
+var noMovieCol =$("<div>").addClass("no-movie-col")
         var noMovieBody = $("<div>").addClass("no-movie-body");
 
         var noMovieCard = $("<div>").addClass("no-movie-card");
-
+        noMovie.text("No movie found.");
         noMovieBody
         .append(noMovie);
         
@@ -129,7 +145,7 @@ var noMovieCol =$("<div").addClass("no-movie-col")
         .append(noMovieBody);
 
         noMovieCol
-        .append(nnoMovieColMovieCard);
+        .append(noMovieCard);
 
 $("#movie-container").append(noMovieCol);
           });
