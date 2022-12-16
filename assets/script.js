@@ -1,6 +1,6 @@
 var googleBooks = "https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyAwpnTlCB_XLFsQfftXziK3rDq7m9vf6R0";
 var omdb = "http://www.omdbapi.com/?i=tt3896198&apikey=56ad700b";
-
+// generates the book cards
 var displayBooks = function (data) {
   $("#card-container").empty();
   data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
@@ -43,7 +43,7 @@ var displayBooks = function (data) {
     $("#card-container").append(col);
   }
 }
-
+// generates the movie cards
 var displayMovie = function (data) {
   $("#movie-container").empty();
   var movieTitle = (data.Title);
@@ -80,33 +80,30 @@ var displayMovie = function (data) {
 
   movieCard.append(movieCardRow);
 
-
   $("#movie-container").append(movieCard);
-
 }
 
+// Book Results
 var fetchBooks = function (q) {
   var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + q;
-  // Book Results
   fetch(bookUrl)
     .then(function (response) {
       if (response.ok) {
         response.json().then(displayBooks);
       }
     })
-    .catch(function (error) {    
+    .catch(function (error) {
     });
 }
 
+// Movie Results
 var fetchMovie = function (q) {
   var movieURL = 'https://www.omdbapi.com/?apikey=56ad700b&t=' + q;
-  // Movie Results
   fetch(movieURL)
     .then(function (response) {
       if (response.ok) {
         response.json().then(displayMovie)
           .catch(function (error) {
-            // no alert messages
             var noMovie = $("<h5>").addClass("No-movie-results");
             var noMovieCol = $("<div>").addClass("no-movie-col")
             var noMovieBody = $("<div>").addClass("no-movie-body");
@@ -124,7 +121,6 @@ var fetchMovie = function (q) {
 
             $("#movie-container").append(noMovieCol);
           });
-
       }
     });
 }
@@ -134,20 +130,17 @@ var fetchResults = function (q) {
   fetchBooks(q);
 };
 
-
-// Search Bar
+// Search Button
 $(document).on('click', '.btn-primary', function (event) {
   event.preventDefault();
   var q = $("#textInput").val();
-
-  if (location.href.includes("index.html") || location.href.includes("watchlist.html") || location.href.includes("search-results.html")) {
-    location.assign("./search-results.html?q=" + q)
-  };
+  location.assign("./search-results.html?q=" + q);
 });
 
-// Local Storage
+// save movie to local storage for watchlist
 $(document).on('click', '.btn-secondary', function () {
   var movieSave = $(this).attr('id');
+  // click removes from storage if movie is already saved
   if ($(this).hasClass("btn-danger")) {
     var getmovies = localStorage.getItem("movies") || '[]';
     movieItems = JSON.parse(getmovies);
@@ -159,19 +152,19 @@ $(document).on('click', '.btn-secondary', function () {
     $(this).removeClass("btn-danger");
     $(this).text("☆ Add to Watchlist");
   } else {
-    $(this).addClass("btn-danger");
-    // get items from localStorage, or declare new one if not exist
+    // click adds to storage if not already saved
     var getmovies = localStorage.getItem("movies") || '[]';
     movieItems = JSON.parse(getmovies);
-    // declare and add the new item
     movieItems.push(movieSave);
     localStorage.setItem("movies", JSON.stringify(movieItems));
+    $(this).addClass("btn-danger");
     $(this).text("★ Added to Watchlist!");
   }
 });
-
+// save book to local storage for reading list
 $(document).on('click', '.btn-info', function () {
   var bookSave = $(this).attr('id');
+  // click removes from storage if book is already saved
   if ($(this).hasClass("btn-danger")) {
     var getBooks = localStorage.getItem("books") || '[]';
     bookItems = JSON.parse(getBooks);
@@ -183,23 +176,22 @@ $(document).on('click', '.btn-info', function () {
     $(this).removeClass("btn-danger");
     $(this).text("☆ Add to Reading list");
   } else {
-    $(this).addClass("btn-danger");
-    // get items from localStorage, or declare new one if not exist
+    // click add to storage if not already saved
     var getBooks = localStorage.getItem("books") || '[]';
     bookItems = JSON.parse(getBooks);
-    // declare and add the new item
     bookItems.push(bookSave);
     localStorage.setItem("books", JSON.stringify(bookItems));
+    $(this).addClass("btn-danger");
     $(this).text("★ Added to Reading list!");
   }
 });
-
+// redirects to search results page and adds q to url
 if (location.href.includes('search-results.html') && location.search) {
   var params = new URLSearchParams(location.search);
   var q = params.get('q');
   if (q) fetchResults(q);
 }
-
+// Saved Results display on watchlist
 if (location.href.includes('watchlist.html')) {
   // Book Results
   var bookItems = localStorage.getItem("books") || '[]';
@@ -208,7 +200,6 @@ if (location.href.includes('watchlist.html')) {
   for (var i = 0; i < bookItems.length; i++) {
     var q = bookItems[i];
     var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + q;
-    // Book Results
     fetch(bookUrl)
       .then(function (response) {
         if (response.ok) {
@@ -217,9 +208,8 @@ if (location.href.includes('watchlist.html')) {
       })
       .catch(function (error) {
       });
-
+    }
     // Movie Results
-  }
   var movieItems = localStorage.getItem("movies") || '[]';
   movieItems = JSON.parse(movieItems);
   if (movieItems.length) $("#watch-movie-container").empty();
@@ -234,7 +224,7 @@ if (location.href.includes('watchlist.html')) {
       })
   }
 }
-
+// Watchlist Movie Card Generation
 var watchMovie = function (data, clear) {
   clear && $("#watch-movie-container").empty();
 
@@ -268,11 +258,8 @@ var watchMovie = function (data, clear) {
 
   wMovieCol.append(wMovieCard);
 
-
   $("#watch-movie-container").append(wMovieCol);
-
 }
-
 // Watchlist Book Card Generation
 var watchBooks = function (data, clear) {
   clear && $("#watch-book-container").empty();
@@ -308,7 +295,6 @@ var watchBooks = function (data, clear) {
 
   col
     .append(card);
-
 
   $("#watch-book-container").append(col);
 }
