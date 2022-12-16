@@ -295,6 +295,8 @@ var watchMovie = function (data, clear) {
 // Watchlist Book Card Generation
 var watchBooks = function (data, clear) {
   clear && $("#watch-book-container").empty();
+  data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
+  data.items.forEach(item => item.volumeInfo.ratingsCount ? true : item.volumeInfo.ratingsCount = 0);
   console.log(data);
   var title = (data.items[0].volumeInfo.title);
   var rating = (data.items[0].volumeInfo.averageRating);
