@@ -187,16 +187,26 @@ $(document).on('click', '.btn-secondary', function () {
 
 $(document).on('click', '.btn-info', function () {
   var bookSave = $(this).attr('id');
-
-  // get items from localStorage, or declare new one if not exist
-  var bookItems = localStorage.getItem("books") || '[]';
-  bookItems = JSON.parse(bookItems);
-  // declare and add the new item
-  bookItems.push(bookSave);
-  localStorage.setItem("books", JSON.stringify(bookItems));
-  console.log(bookItems);
-  $(this).addClass('btn-danger');
-  $(this).text("★ Added to Reading List!")
+  if ($(this).hasClass("btn-danger")) {
+    var getBooks = localStorage.getItem("books") || '[]';
+    bookItems = JSON.parse(getBooks);
+    var index = bookItems.indexOf(bookSave);
+    if (index > -1) {
+      bookItems.splice(index, 1);
+      localStorage.setItem("books", JSON.stringify(bookItems));
+    }
+    $(this).removeClass("btn-danger");
+    $(this).text("☆ Add to Reading list");
+  } else {
+    $(this).addClass("btn-danger");
+    // get items from localStorage, or declare new one if not exist
+    var getBooks = localStorage.getItem("books") || '[]';
+    bookItems = JSON.parse(getBooks);
+    // declare and add the new item
+    bookItems.push(bookSave);
+    localStorage.setItem("books", JSON.stringify(bookItems));
+    $(this).text("★ Added to Reading list!");
+  }
 });
 
 if (location.href.includes('search-results.html') && location.search) {
