@@ -91,29 +91,10 @@ var fetchBooks = function (q) {
   fetch(bookUrl)
     .then(function (response) {
       if (response.ok) {
-        console.log(response);
         response.json().then(displayBooks);
       }
     })
-    .catch(function (error) {
-      // No alerts - redirect to error message "modal"
-      //       var noBook = $("<h5>").addClass("No-Book-results");
-      //       console.log(noMovie);
-      // var noBookCol = $("<div>").addClass("no-Book-col");
-      //       var noBookBody = $("<div>").addClass("no-Book-body");
-
-      //       var noBookCard = $("<div>").addClass("no-Book-card");
-      //       noBook.text("No book found.");
-      //       noBookBody
-      //       .append(noBook);
-
-      //       noBookCard
-      //       .append(noBookBody);
-
-      //       noBookCol
-      //       .append(noBookCard);
-
-      // $("#book-container").append(noBookCol);
+    .catch(function (error) {    
     });
 }
 
@@ -123,12 +104,10 @@ var fetchMovie = function (q) {
   fetch(movieURL)
     .then(function (response) {
       if (response.ok) {
-        console.log(response);
         response.json().then(displayMovie)
           .catch(function (error) {
             // no alert messages
             var noMovie = $("<h5>").addClass("No-movie-results");
-            console.log(noMovie);
             var noMovieCol = $("<div>").addClass("no-movie-col")
             var noMovieBody = $("<div>").addClass("no-movie-body");
 
