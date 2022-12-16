@@ -173,16 +173,26 @@ $(document).on('click', '.btn-primary', function (event) {
 // Local Storage
 $(document).on('click', '.btn-secondary', function () {
   var movieSave = $(this).attr('id');
-
-  // get items from localStorage, or declare new one if not exist
-  var movieItems = localStorage.getItem("movies") || '[]';
-  movieItems = JSON.parse(movieItems);
-  // declare and add the new item
-  movieItems.push(movieSave);
-  localStorage.setItem("movies", JSON.stringify(movieItems));
-  console.log(movieItems);
-  $(this).addClass('btn-danger');
-  $(this).text("★ Added to Watchlist!")
+  if ($(this).hasClass("btn-danger")) {
+    var getmovies = localStorage.getItem("movies") || '[]';
+    movieItems = JSON.parse(getmovies);
+    var index = movieItems.indexOf(movieSave);
+    if (index > -1) {
+      movieItems.splice(index, 1);
+      localStorage.setItem("movies", JSON.stringify(movieItems));
+    }
+    $(this).removeClass("btn-danger");
+    $(this).text("☆ Add to Watchlist");
+  } else {
+    $(this).addClass("btn-danger");
+    // get items from localStorage, or declare new one if not exist
+    var getmovies = localStorage.getItem("movies") || '[]';
+    movieItems = JSON.parse(getmovies);
+    // declare and add the new item
+    movieItems.push(movieSave);
+    localStorage.setItem("movies", JSON.stringify(movieItems));
+    $(this).text("★ Added to Watchlist!");
+  }
 });
 
 $(document).on('click', '.btn-info', function () {
@@ -275,7 +285,7 @@ var watchMovie = function (data, clear) {
   var wMovieCardBody = $('<div>').addClass('card-body');
   var wMovieCardTitle = $('<h5>').addClass('card-title');
   var wMovieCardParagraph = $('<p>').addClass('card-text');
-  var wMovieCardLink = $('<button>').addClass('btn btn-info');
+  var wMovieCardLink = $('<button>').addClass('btn btn-secondary btn-danger');
 
   wMovieCardLink.attr('id', wMovieId);
   wMovieCardLink.text('★ Remove from Watchlist');
@@ -319,7 +329,7 @@ var watchBooks = function (data, clear) {
   var cardBody = $('<div>').addClass('card-body');
   var cardTitle = $('<h5>').addClass('card-title');
   var cardParagraph = $('<p>').addClass('card-text');
-  var cardLink = $('<button>').addClass('btn btn-info');
+  var cardLink = $('<button>').addClass('btn btn-info btn-danger');
 
   cardTitle.text(title);
   cardParagraph.text(rating + "/5");
@@ -342,11 +352,3 @@ var watchBooks = function (data, clear) {
 
   $("#watch-book-container").append(col);
 }
-
-
-
-var buttonEl = $('.btn');
-console.log(buttonEl.id)
-var movieItems = localStorage.getItem("movies") || '[]';
-movieItems = JSON.parse(movieItems);
-console.log(movieItems);
