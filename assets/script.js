@@ -51,10 +51,6 @@ var displayMovie = function (data) {
   var moviePoster = (data.Poster);
   var movieId = (data.imdbID);
 
-  if (movieId === undefined) {
-    console.log(nope);
-  }
-
   var movieCard = $('<div>').addClass('card mb-3');
   var movieCardRow = $('<div>').addClass('row g-0');
   var movieCardRowDiv = $('<div>').addClass('col-sm-4 col-xs-12');
@@ -229,30 +225,24 @@ if (location.href.includes('watchlist.html')) {
   // Book Results
   var bookItems = localStorage.getItem("books") || '[]';
   bookItems = JSON.parse(bookItems);
-  console.log(bookItems);
   if (bookItems.length) $("#watch-book-container").empty();
   for (var i = 0; i < bookItems.length; i++) {
     var q = bookItems[i];
-    console.log(q);
     var bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + q;
     // Book Results
     fetch(bookUrl)
       .then(function (response) {
         if (response.ok) {
-          console.log(response);
           response.json().then(data => watchBooks(data, false));
         }
       })
       .catch(function (error) {
-        // No alerts - redirect to error message "modal"
-        // alert('No results found!');
       });
 
     // Movie Results
   }
   var movieItems = localStorage.getItem("movies") || '[]';
   movieItems = JSON.parse(movieItems);
-  console.log(movieItems);
   if (movieItems.length) $("#watch-movie-container").empty();
   for (var i = 0; i < movieItems.length; i++) {
     var q = movieItems[i];
@@ -260,14 +250,12 @@ if (location.href.includes('watchlist.html')) {
     fetch(movieURL)
       .then(function (response) {
         if (response.ok) {
-          console.log(response);
           response.json().then(data => watchMovie(data, false));
         }
       })
   }
 }
 
-// Watchlist Movie Card Generation TO DO
 var watchMovie = function (data, clear) {
   clear && $("#watch-movie-container").empty();
 
@@ -276,12 +264,9 @@ var watchMovie = function (data, clear) {
   var wMoviePoster = (data.Poster);
   var wMovieId = (data.imdbID);
 
-  var wMovieCol = $('<div>').addClass("col-12 col-lg-4 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 pt-2");
-  var wMovieCard = $('<div>').addClass('card mb-3');
-  var wMovieCardRow = $('<div>').addClass('row g-0');
-  var wMovieCardRowDiv = $('<div>').addClass('col-12 col-lg-4');
+  var wMovieCol = $('<div>').addClass('col-12 col-lg-2 col-md-3 col-sm-4 col-xs-12 bg-secondary rounded m-1 p-2');
+  var wMovieCard = $('<div>').addClass('card');
   var wMovieCardImg = $('<img>').addClass('card-img-top');
-  var wMovieCardBodyDiv = $('<div>').addClass('col-12');
   var wMovieCardBody = $('<div>').addClass('card-body');
   var wMovieCardTitle = $('<h5>').addClass('card-title');
   var wMovieCardParagraph = $('<p>').addClass('card-text');
@@ -298,13 +283,10 @@ var watchMovie = function (data, clear) {
     .append(wMovieCardParagraph)
     .append(wMovieCardLink);
 
-  wMovieCardBodyDiv.append(wMovieCardBody)
-  wMovieCardRowDiv.append(wMovieCardImg)
-  wMovieCardRow
-    .append(wMovieCardRowDiv)
-    .append(wMovieCardBodyDiv);
+  wMovieCard
+    .append(wMovieCardImg)
+    .append(wMovieCardBody);
 
-  wMovieCard.append(wMovieCardRow);
   wMovieCol.append(wMovieCard);
 
 
@@ -317,7 +299,6 @@ var watchBooks = function (data, clear) {
   clear && $("#watch-book-container").empty();
   data.items.forEach(item => item.volumeInfo.averageRating ? true : item.volumeInfo.averageRating = 0);
   data.items.forEach(item => item.volumeInfo.ratingsCount ? true : item.volumeInfo.ratingsCount = 0);
-  console.log(data);
   var title = (data.items[0].volumeInfo.title);
   var rating = (data.items[0].volumeInfo.averageRating);
   var img = (data.items[0].volumeInfo.imageLinks.smallThumbnail);
